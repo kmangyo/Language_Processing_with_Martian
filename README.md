@@ -1,5 +1,5 @@
 # Martian
-Korean Laguage
+Korean Language
 
 제목: 한국어 영화평의 탐색적 분석
 
