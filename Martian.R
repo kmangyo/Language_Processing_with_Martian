@@ -85,7 +85,7 @@ for (i in 1:nrow(martian_df) ) {
   text.noun[i]<-melt(extractNoun(martian_df[i,6]))
 }
 
-# Pos22는 단순 명사추출 명령어 보다는 좋은 성능. 그러나 정확하지 않음. 전처리에 추가적 노력이 필요. R 패키지 자체 한계 존재.
+# Pos22는 단순 명사추출 명령어 보다는 좋은 성능. 그러나 정확하지 않음. 탐색적 목적으로는 활용 가능할 것으로 보임
 # 한글 전처리의 정확성 향상을 위해서는 R의 KoNLP보다 다른 프로그램 사용이 좋은 성능을 보여줄 수 도 있음
 text.noun<- NA
 for (i in 1:nrow(martian_df) ) {
