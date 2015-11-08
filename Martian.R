@@ -62,7 +62,7 @@ table(format(martian_df$date,'%A'))
 martian_df<-martian_df[complete.cases(martian_df$text),]
 
 # 문자열 데이터 처리
-# 참고URL) http://gastonsanchez.com/
+# 참고URL) http://gastonsanchez.com/Handling_and_Processing_Strings_in_R.pdf
 martian_df$text.clean<- gsub("\t", " ", martian_df$text)
 martian_df$text.clean<- gsub("\n", " ", martian_df$text.clean)
 martian_df$text.clean<- gsub("\r", " ", martian_df$text.clean)
@@ -86,6 +86,7 @@ for (i in 1:nrow(martian_df) ) {
 }
 
 # Pos22는 단순 명사추출 명령어 보다는 좋은 성능. 그러나 정확하지 않음. 전처리에 추가적 노력이 필요. R 패키지 자체 한계 존재.
+# 한글 전처리의 정확성 향상을 위해서는 R의 KoNLP보다 다른 프로그램 사용이 좋은 성능을 보여줄 수 도 있음
 text.noun<- NA
 for (i in 1:nrow(martian_df) ) {
   text.noun[i]<-melt(SimplePos22(martian_df[i,6]))
@@ -110,11 +111,12 @@ names(text.noun)[1:2]<-c('noun','id')
 text.noun.star<-merge(text.noun,martian_df, c('id'),all.x=T)
 text.noun.star$date<-as.character(text.noun.star$date)
 
+# 특정 별정 구간별로 추출된 명사 확인
 text.noun.star %>% filter(star<=4) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
 text.noun.star %>% filter(star>4&star<=9) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
 text.noun.star %>% filter(star==10) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
 
-# 다른 영화와 비교 (ex, 인터스텔라, 그래비티)
+# 다른 영화와 비교 언급 (ex, 인터스텔라, 그래비티)
 martian_df$movie.name<-stri_count_regex(martian_df$text.clean, "인터스텔라|그래비티|그레비티|그라비티|인터스탤라")
 table(martian_df$movie.name)/nrow(martian_df)
 
@@ -126,20 +128,23 @@ table(martian_df$act.drt.name)/nrow(martian_df)
 martian_df$contents<-stri_count_regex(martian_df$text.clean, "이야기|스토리|내용")
 table(martian_df$contents)/nrow(martian_df)
 
-# 위의 주제를 평점, 시간별로 비교
+# 위의 주제를 평점별로 비교
 martian_df %>% filter(movie.name>0) %>% summarise(mean(star), sd(star))
 martian_df %>% filter(act.drt.name>0) %>% summarise(mean(star), sd(star))
 martian_df %>% filter(contents>0) %>% summarise(mean(star), sd(star))
 
+# Ddensity로 보기 (별점)
 ggplot(martian_df, aes(star)) + 
   geom_density(data = subset(martian_df,movie.name > 0), fill = "red", alpha = 0.2) + 
   geom_density(data = subset(martian_df,act.drt.name > 0), fill = "blue", alpha = 0.2) +
   geom_density(data = subset(martian_df,contents > 0), fill = "green", alpha = 0.2)
 
+# 위의 주제를 날짜별로 비교
 martian_df %>% filter(movie.name>0) %>% summarise(mean(date))
 martian_df %>% filter(act.drt.name>0) %>% summarise(mean(date))
 martian_df %>% filter(contents>0) %>% summarise(mean(date))
 
+# Ddensity로 보기 (날짜)
 ggplot(martian_df, aes(date)) + 
   geom_density(data = subset(martian_df,movie.name > 0), fill = "red", alpha = 0.2) + 
   geom_density(data = subset(martian_df,act.drt.name > 0), fill = "blue", alpha = 0.2) +
