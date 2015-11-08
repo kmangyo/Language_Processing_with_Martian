@@ -17,7 +17,7 @@ library(reshape2)
 library(ggplot2)
 library(wordcloud)
 
-# 영화, 마션
+# 영화, 마션 140자평, 별점, 날짜 데이터 가져오기
 # 데이터 URL) http://movie.daum.net/moviedetail/moviedetailNetizenPoint.do?movieId=94626&searchType=all&type=after&page=1
 
 urls<-paste0("http://movie.daum.net/moviedetail/moviedetailNetizenPoint.do?movieId=94626&searchType=all&type=after&page=",c(1:60))
@@ -36,6 +36,8 @@ for (i in 1:length(urls) ) {
 martian<-melt(martian)
 martian.star<-melt(martian.star)
 martian.date<-melt(martian.date)
+
+# 가져온 한글 텍스트 데이터 인코딩 수정
 martian$value<-iconv(martian$value, "UTF-8", "CP949")
 
 martian_df<-cbind(martian, martian.star, martian.date)
@@ -51,6 +53,7 @@ martian_df$date<-as.character(martian_df$date)
 martian_df$date<-gsub("\\.", "-", martian_df$date)
 martian_df$date<-as.POSIXct(martian_df$date)
 
+# 데이터의 대략적 정보
 hist(martian_df$star)
 mean(martian_df$star)
 
