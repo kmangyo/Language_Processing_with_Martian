@@ -137,7 +137,7 @@ martian_df %>% filter(movie.name>0) %>% summarise(mean(star), sd(star))
 martian_df %>% filter(act.drt.name>0) %>% summarise(mean(star), sd(star))
 martian_df %>% filter(contents>0) %>% summarise(mean(star), sd(star))
 
-# Ddensity로 보기 (별점)
+# Density로 보기 (별점)
 ggplot(martian_df, aes(star)) + 
   geom_density(data = subset(martian_df,movie.name > 0), fill = "red", alpha = 0.2) + 
   geom_density(data = subset(martian_df,act.drt.name > 0), fill = "blue", alpha = 0.2) +
@@ -148,7 +148,7 @@ martian_df %>% filter(movie.name>0) %>% summarise(mean(date))
 martian_df %>% filter(act.drt.name>0) %>% summarise(mean(date))
 martian_df %>% filter(contents>0) %>% summarise(mean(date))
 
-# Ddensity로 보기 (날짜)
+# Density로 보기 (날짜)
 ggplot(martian_df, aes(date)) + 
   geom_density(data = subset(martian_df,movie.name > 0), fill = "red", alpha = 0.2) + 
   geom_density(data = subset(martian_df,act.drt.name > 0), fill = "blue", alpha = 0.2) +
