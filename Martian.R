@@ -103,6 +103,7 @@ text.noun$value<- gsub("/NC", "", text.noun$value)
 
 # 빈도와 함께 명사 목록 확인
 text.noun.table<-table(text.noun$value)
+head(sort(-text.noun.table),10)
 
 # 워드클라우드 만들기 예제
 pal <- brewer.pal(12,"Paired")
