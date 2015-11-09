@@ -115,7 +115,7 @@ names(text.noun)[1:2]<-c('noun','id')
 text.noun.star<-merge(text.noun,martian_df, c('id'),all.x=T)
 text.noun.star$date<-as.character(text.noun.star$date)
 
-# 특정 별정 구간별로 추출된 명사 확인
+# 특정 별점 구간별로 추출된 명사 확인
 text.noun.star %>% filter(star<=4) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
 text.noun.star %>% filter(star>4&star<=9) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
 text.noun.star %>% filter(star==10) %>% count(noun) %>% arrange(-n) %>% mutate(n/sum(n)*100) %>% head(20)
