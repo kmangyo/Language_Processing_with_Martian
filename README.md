@@ -1,4 +1,4 @@
-# Martian
+# 한국어 영화평 분석 (Martian)
 Korean Language
 
 제목: 한국어 영화평의 탐색적 분석
